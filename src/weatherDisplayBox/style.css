@@ -1,0 +1,25 @@
+#circle-logo {
+	font-size: 13px;
+	position: absolute;
+	bottom: 47px;
+	left: 138px;
+}
+
+#thermostat-logo {
+	font-size: 62px;
+	margin-top: 12px;
+}
+#temprature-number {
+	position: relative;
+}
+
+#cloud-logo {
+	margin-left: 15px;
+	font-size: 60px;
+}
+
+#main-container {
+	background-image: linear-gradient(to bottom right, #ad36cb 27%, #333333 69%);
+	color: white;
+	border-radius: 30px;
+}

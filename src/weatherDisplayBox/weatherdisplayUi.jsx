@@ -1,9 +1,21 @@
 import React from "react";
 import moment from "moment";
 import "./style.css"
+import { useLocation } from "react-router-dom";
 
 export default function WeatherUI(prop) {
     const { location, cuurentTemprature, Humidity, Visiblity, AirPressure, Wind, weatherCode } = prop.mainData
+    let param = useLocation()
+    let getDate;
+
+    if (param.pathname == "/") {
+        getDate = moment().format('MMM D, ddd')
+    } else if (param.pathname == "/tommorow") {
+        getDate = moment().add(1, 'day').format('MMM D, ddd')
+    } else if (param.pathname == "/dayaftertommorow") {
+        getDate = moment().add(2, 'day').format('MMM D, ddd')
+    }
+
     const weatherIconobj = {
         "1000": "sunny",
         "1003": "partly_cloudy_day",
@@ -35,7 +47,7 @@ export default function WeatherUI(prop) {
                 <div className="col-12">
                     <div className="row">
                         <div className="col-4 d-flex align-items-end fw-bold text-decoration-underline fs-5">
-                            {moment().format('MMM D, ddd')}
+                            {getDate}
                         </div>
                         <div className="col-3">
                             <h2 className="d-flex align-items-center display-3 fw-bold" id="temprature-number">

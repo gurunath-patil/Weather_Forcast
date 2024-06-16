@@ -17,6 +17,7 @@ export default function BootomUi(props) {
         "1240": "src/ImagesOrLogos/rainy_light.png",
         "1150": "src/ImagesOrLogos/rainy_light.png",
         "1183": "src/ImagesOrLogos/rainy_light.png",
+        "1243": "src/ImagesOrLogos/rainy_light.png",
         "1195": "src/ImagesOrLogos/rainy_light.png",
         "1087": "src/ImagesOrLogos/thunderstorm.png",
         "1276": "src/ImagesOrLogos/thunderstorm.png",

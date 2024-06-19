@@ -5,11 +5,14 @@ import BootomUi from './footer/bottomUI'
 import searchLogo from "./ImagesOrLogos/searchlogo.png"
 import "./style.css"
 import { useLocation } from "react-router-dom";
+import { Loader } from './loader'
+
 
 let result;
 
 export default function AppUI() {
     const isInitialRender = useRef(true)
+    let [loaderRun, setLoadeRun] = useState(false)
     const [location, setLocation] = useState("")
     const [centerData, setCenterData] = useState({
         "location": "",
@@ -32,7 +35,7 @@ export default function AppUI() {
             setLocation(localStorage.getItem('prev_locationName'))
             if (isInitialRender.current) {
                 isInitialRender.current = false
-                FetchData()
+                // FetchData()
                 return;
             } else {
                 sendData(result)
@@ -44,6 +47,7 @@ export default function AppUI() {
 
 
     async function FetchData() {
+        setLoadeRun(true)
         const url = `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${location}&days=3&aqi=yes&alerts=yes`
         const options = {
             method: "GET",
@@ -60,8 +64,11 @@ export default function AppUI() {
             localStorage.prev_locationName = location
             // send data to center field
             sendData(result)
+            setLoadeRun(false)
         } catch (error) {
             console.error(error)
+            alert('someting went wrong!')
+            setLoadeRun(false)
         }
     }
 
@@ -104,6 +111,7 @@ export default function AppUI() {
 
     return (
         <>
+            {loaderRun && <Loader />}
             <div className="row container-fluid">
                 <div className="col-12">
                     <NavBar />

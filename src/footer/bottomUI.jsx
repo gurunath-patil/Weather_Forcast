@@ -1,28 +1,35 @@
 import React from "react";
 import "./style.css"
 import moment from "moment";
+import sunny from '../ImagesOrLogos/sunny.png'
+import partly_cloudy_day from '../ImagesOrLogos/partly_cloudy_day.png'
+import cloud from '../ImagesOrLogos/cloud.png'
+import foggy from '../ImagesOrLogos/foggy.png'
+import rainy_light from '../ImagesOrLogos/rainy_light.png'
+import thunderstorm from '../ImagesOrLogos/thunderstorm.png'
+import snowing from '../ImagesOrLogos/snowing.png'
 
 export default function BootomUi(props) {
     const weatherIconobj = {
-        "1000": "src/ImagesOrLogos/sunny.png",
-        "1003": "src/ImagesOrLogos/partly_cloudy_day.png",
-        "1006": "src/ImagesOrLogos/cloud.png",
-        "1153": "src/ImagesOrLogos/cloud.png",
-        "1009": "src/ImagesOrLogos/foggy.png",
-        "1030": "src/ImagesOrLogos/foggy.png",
-        "1135": "src/ImagesOrLogos/foggy.png",
-        "1063": "src/ImagesOrLogos/rainy_light.png",
-        "1273": "src/ImagesOrLogos/rainy_light.png",
-        "1189": "src/ImagesOrLogos/rainy_light.png",
-        "1240": "src/ImagesOrLogos/rainy_light.png",
-        "1150": "src/ImagesOrLogos/rainy_light.png",
-        "1183": "src/ImagesOrLogos/rainy_light.png",
-        "1243": "src/ImagesOrLogos/rainy_light.png",
-        "1195": "src/ImagesOrLogos/rainy_light.png",
-        "1087": "src/ImagesOrLogos/thunderstorm.png",
-        "1276": "src/ImagesOrLogos/thunderstorm.png",
-        "1114": "src/ImagesOrLogos/snowing.png",
-        "1225": "src/ImagesOrLogos/snowing.png"
+        "1000": sunny,
+        "1003": partly_cloudy_day,
+        "1006": cloud,
+        "1153": cloud,
+        "1009": foggy,
+        "1030": foggy,
+        "1135": foggy,
+        "1063": rainy_light,
+        "1273": rainy_light,
+        "1189": rainy_light,
+        "1240": rainy_light,
+        "1150": rainy_light,
+        "1183": rainy_light,
+        "1243": rainy_light,
+        "1195": rainy_light,
+        "1087": thunderstorm,
+        "1276": thunderstorm,
+        "1114": snowing,
+        "1225": snowing
     }
     let forcastArray = props.forecast
     function checkOffset() {

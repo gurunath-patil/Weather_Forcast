@@ -1,3 +1,3 @@
-// import React, { createContext } from "react"
+import React, { createContext } from "react"
 
-// export detailContext = use
+export let weatherDetail = createContext()

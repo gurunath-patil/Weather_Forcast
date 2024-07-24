@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import moment from "moment";
 import "./style.css"
 import { useLocation } from "react-router-dom";
+import { weatherDetail } from "../context";
 
 export default function WeatherUI(prop) {
-    const { location, cuurentTemprature, Humidity, Visiblity, AirPressure, Wind, weatherCode } = prop.mainData
+
+    // const {  } = prop.
     let param = useLocation()
     let getDate;
-
+    const { centerData } = useContext(weatherDetail)
+    let location = centerData.location;
+    let cuurentTemprature = centerData.cuurentTemprature;
+    let Humidity = centerData.Humidity;
+    let Visiblity = centerData.Visiblity;
+    let AirPressure = centerData.AirPressure;
+    let Wind = centerData.Wind;
+    let weatherCode = centerData.weatherCode
     if (param.pathname == "/") {
         getDate = moment().format('MMM D, ddd')
     } else if (param.pathname == "/tommorow") {

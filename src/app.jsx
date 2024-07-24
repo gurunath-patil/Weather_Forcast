@@ -6,6 +6,7 @@ import searchLogo from "./ImagesOrLogos/searchlogo.png"
 import "./style.css"
 import { useLocation } from "react-router-dom";
 import { Loader } from './loader'
+import { weatherDetail } from './context.js'
 
 
 let result;
@@ -24,28 +25,29 @@ export default function AppUI() {
         "weatherCode": ""
     })
 
+    const [temprature_status, setTempratureStatus] = useState(true)             // for chacking temprature state c or  f & for c is true 
     const [forecastDays, setForecastDays] = useState()
 
     function handleChanges(e) {
         setLocation(e.target.value)
     }
+
     let param = useLocation();
+    // use effect function 
     useEffect(() => {
         try {
-            setLocation(localStorage.getItem('prev_locationName'))
             if (isInitialRender.current) {
                 isInitialRender.current = false
-                // FetchData()
-                return;
+                alert("Please Provide Location To give you Weather Status")
             } else {
                 sendData(result)
             }
         } catch (err) {
             console.log(err);
         }
-    }, [param])
+    }, [param, temprature_status])
 
-
+    // get data from api 
     async function FetchData() {
         setLoadeRun(true)
         const url = `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${location}&days=3&aqi=yes&alerts=yes`
@@ -61,8 +63,8 @@ export default function AppUI() {
         try {
             const response = await fetch(url, options)
             result = await response.json()
-            localStorage.prev_locationName = location
             // send data to center field
+            console.log(result);
             sendData(result)
             setLoadeRun(false)
         } catch (error) {
@@ -72,11 +74,12 @@ export default function AppUI() {
         }
     }
 
+    // this function assign data as per routing path such as todays weather data 
     function sendData(result) {
         if (param.pathname == '/') {
             setCenterData({
                 "location": result.location.name,
-                "cuurentTemprature": result.current.temp_c,
+                "cuurentTemprature": temprature_status == true ? result.current.temp_c : result.current.temp_f,
                 "Humidity": result.current.humidity,
                 "Visiblity": result.current.vis_km,
                 "AirPressure": result.current.pressure_mb,
@@ -87,7 +90,7 @@ export default function AppUI() {
         } else if (param.pathname == '/tommorow') {
             setCenterData({
                 "location": result.location.name,
-                "cuurentTemprature": result.forecast.forecastday[1].day.avgtemp_c,
+                "cuurentTemprature": temprature_status == true ? result.forecast.forecastday[1].day.avgtemp_c : result.forecast.forecastday[1].day.avgtemp_f,
                 "Humidity": result.forecast.forecastday[1].day.avghumidity,
                 "Visiblity": result.forecast.forecastday[1].day.avgvis_km,
                 "AirPressure": result.current.pressure_mb,
@@ -98,7 +101,7 @@ export default function AppUI() {
         } else if (param.pathname == '/dayaftertommorow') {
             setCenterData({
                 "location": result.location.name,
-                "cuurentTemprature": result.forecast.forecastday[2].day.avgtemp_c,
+                "cuurentTemprature": temprature_status == true ? result.forecast.forecastday[2].day.avgtemp_c : result.forecast.forecastday[1].day.avgtemp_f,
                 "Humidity": result.forecast.forecastday[2].day.avghumidity,
                 "Visiblity": result.forecast.forecastday[2].day.avgvis_km,
                 "AirPressure": result.current.pressure_mb,
@@ -118,6 +121,7 @@ export default function AppUI() {
                 </div>
                 <div className="col-12 mb-3">
                     <div className="row">
+                        {/* temprature indicater */}
                         <div className="col-2 d-flex">
                             <div className="d-flex justify-content-around ms-2">
                                 <div className="d-flex align-items-end me-3">
@@ -126,10 +130,10 @@ export default function AppUI() {
                                 <div className="">
                                     <input type="checkbox" id="switch" />
                                     <label for="switch" onClick={(e) => {
-                                        if (e.target.control.checked == false) {
-                                            setCenterData({ ...centerData, "cuurentTemprature": result.current.temp_f })
+                                        if (e.target.control.checked == false) {                // changing the temprature state 
+                                            setTempratureStatus(false)
                                         } else {
-                                            setCenterData({ ...centerData, "cuurentTemprature": result.current.temp_c })
+                                            setTempratureStatus(true)
                                         }
                                     }
                                     } />
@@ -139,6 +143,7 @@ export default function AppUI() {
                                 </div>
                             </div>
                         </div>
+                        {/* search bar */}
                         <div className="col-9 d-flex justify-content-center">
                             <div className="row border border-dark container main-container">
                                 <div className="col-2 d-flex justify-content-center">
@@ -148,9 +153,8 @@ export default function AppUI() {
                                     <input type="text" name="search" id="searchBox" placeholder="search any location here"
                                         onChange={handleChanges}
                                         onKeyUp={(e) => {
-                                            console.log(e.key);
                                             if (e.key == "Enter") {
-                                                FetchData()
+                                                FetchData()             // this function call when user hit enter btn 
                                             }
                                         }} />
                                 </div>
@@ -160,7 +164,9 @@ export default function AppUI() {
                 </div>
 
                 <div className="col-12 d-flex justify-content-center p-4">
-                    <WeatherUI mainData={centerData} />
+                    <weatherDetail.Provider value={{ centerData }}>
+                        <WeatherUI />
+                    </weatherDetail.Provider>
                 </div>
                 <div className="col-12">
                     <BootomUi forecast={forecastDays} />

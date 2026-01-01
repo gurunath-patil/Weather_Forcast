@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "./topNavBar"
 import WeatherUI from "./weatherDisplayBox/weatherdisplayUi";
 import BootomUi from './footer/bottomUI'
@@ -12,7 +12,7 @@ import { weatherDetail } from './context.js'
 let result;
 
 export default function AppUI() {
-    const isInitialRender = useRef(true)
+    let [weatherDetailsAvailable, setWeatherDetailsAvailable] = useState(false)
     let [loaderRun, setLoadeRun] = useState(false)
     const [location, setLocation] = useState("")
     const [centerData, setCenterData] = useState({
@@ -36,12 +36,8 @@ export default function AppUI() {
     // use effect function 
     useEffect(() => {
         try {
-            if (isInitialRender.current) {
-                isInitialRender.current = false
-                alert("Please Provide Location To give you Weather Status")
-            } else {
-                sendData(result)
-            }
+            if (location.length == 0) throw new Error("location not provided");
+            sendData(result)
         } catch (err) {
             console.log(err);
         }
@@ -64,9 +60,9 @@ export default function AppUI() {
             const response = await fetch(url, options)
             result = await response.json()
             // send data to center field
-            console.log(result);
             sendData(result)
             setLoadeRun(false)
+            setWeatherDetailsAvailable(true)
         } catch (error) {
             console.error(error)
             alert('someting went wrong!')
@@ -129,7 +125,7 @@ export default function AppUI() {
                                 </div>
                                 <div className="">
                                     <input type="checkbox" id="switch" />
-                                    <label for="switch" onClick={(e) => {
+                                    <label htmlFor="switch" onClick={(e) => {
                                         if (e.target.control.checked == false) {                // changing the temprature state 
                                             setTempratureStatus(false)
                                         } else {
@@ -162,15 +158,19 @@ export default function AppUI() {
                         </div>
                     </div>
                 </div>
-
-                <div className="col-12 d-flex justify-content-center p-4">
-                    <weatherDetail.Provider value={{ centerData }}>
-                        <WeatherUI />
-                    </weatherDetail.Provider>
-                </div>
-                <div className="col-12">
-                    <BootomUi forecast={forecastDays} />
-                </div>
+                {
+                    weatherDetailsAvailable ?
+                        <>
+                            <div className="col-12 d-flex justify-content-center p-4">
+                                <weatherDetail.Provider value={{ centerData }}>
+                                    <WeatherUI />
+                                </weatherDetail.Provider>
+                            </div>
+                            <div className="col-12">
+                                <BootomUi forecast={forecastDays} />
+                            </div>)
+                        </> : null
+                }
             </div>
         </>
     )

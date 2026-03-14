@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import weatherLogo from "./ImagesOrLogos/weather.png"
 import moment from "moment";
 import "./style.css"
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 export default function NavBar() {
     const [currentTime, setCurrentTime] = useState(moment().format('LT'))
-    const param = useLocation()
     let textElements = document.querySelectorAll(".nav-text")
 
     useEffect(() => {
@@ -14,19 +13,7 @@ export default function NavBar() {
         }, 2000)
         return () => clearInterval(interval)
     }, [])
-    textElements.forEach((e) => e.style.fontWeight = "lighter")
 
-    try {
-        if (param.pathname == "/") {
-            textElements[0].style.fontWeight = "bold"
-        } else if (param.pathname == "/tommorow") {
-            textElements[1].style.fontWeight = "bold"
-        } else if (param.pathname == "/dayaftertommorow") {
-            textElements[2].style.fontWeight = "bold"
-        }
-    } catch (err) {
-        console.log(err);
-    }
 
     return (
         <>
@@ -41,17 +28,35 @@ export default function NavBar() {
                         <div className="col-3 d-flex align-items-end mb-1 fs-5 fw-bold text-light">{currentTime}</div>
                     </div>
                 </div>
-                <div className="col-3 d-flex align-items-center justify-content-end">
-                    <Link to={'/'} className="fs-2 text-capitalize a-tag nav-text">today</Link>
-                </div>
-                <div className="col-2 d-flex align-items-center justify-content-center">
-                    <Link to={'/tommorow'} className="fs-2 text-capitalize a-tag nav-text">tommorow</Link>
-                </div>
-                <div className="col-3 d-flex align-items-center justify-content-center">
-                    <Link to={'/dayaftertommorow'} className="fs-3 text-capitalize a-tag nav-text">day after tommorow</Link>
+                <div className="col-8 d-flex justify-content-end align-items-center gap-5">
+                    <NavLink
+                        to="/"
+                        className={({ isActive }) =>
+                            `fs-2 text-capitalize a-tag nav-text ${isActive ? "active-nav" : ""}`
+                        }
+                    >
+                        today
+                    </NavLink>
+
+                    <NavLink
+                        to="/tomorrow"
+                        className={({ isActive }) =>
+                            `fs-2 text-capitalize a-tag nav-text ${isActive ? "active-nav" : ""}`
+                        }
+                    >
+                        tomorrow
+                    </NavLink>
+
+                    <NavLink
+                        to="/dayAfterTomorrow"
+                        className={({ isActive }) =>
+                            `fs-3 text-capitalize a-tag nav-text ${isActive ? "active-nav" : ""}`
+                        }
+                    >
+                        {moment().add(2, "day").format("dddd")}
+                    </NavLink>
                 </div>
             </div>
-            <Outlet />
         </>
     )
 }

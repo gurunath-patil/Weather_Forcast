@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import weatherLogo from "./ImagesOrLogos/weather.png"
+import weatherLogo from "../public/assets/weather.png"
 import moment from "moment";
 import "./style.css"
 import { NavLink } from "react-router-dom";
 export default function NavBar() {
     const [currentTime, setCurrentTime] = useState(moment().format('LT'))
-    let textElements = document.querySelectorAll(".nav-text")
 
     useEffect(() => {
         let interval = setInterval(() => {

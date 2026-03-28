@@ -24,14 +24,14 @@ export default function NavBar() {
                         <div className="col-7 p-0">
                             <img src={weatherLogo} alt="weather log" className="img-width" />
                             <h2 className="display-3 fw-bold p-0" id="weather-text">WeatherMe</h2></div>
-                        <div className="col-3 d-flex align-items-end mb-1 fs-5 fw-bold text-light">{currentTime}</div>
+                        <div className="col-3 d-flex align-items-end justify-content-end mb-1 fs-5 fw-bold text-info">{currentTime}</div>
                     </div>
                 </div>
                 <div className="col-8 d-flex justify-content-end align-items-center gap-5">
                     <NavLink
                         to="/"
                         className={({ isActive }) =>
-                            `fs-2 text-capitalize a-tag nav-text ${isActive ? "active-nav" : ""}`
+                            `fs-2 text-capitalize a-tag nav-text text-decoration-none ${isActive ? "active-nav" : ""}`
                         }
                     >
                         today
@@ -40,7 +40,7 @@ export default function NavBar() {
                     <NavLink
                         to="/tomorrow"
                         className={({ isActive }) =>
-                            `fs-2 text-capitalize a-tag nav-text ${isActive ? "active-nav" : ""}`
+                            `fs-2 text-capitalize a-tag nav-text text-decoration-none ${isActive ? "active-nav" : ""}`
                         }
                     >
                         tomorrow
@@ -49,7 +49,7 @@ export default function NavBar() {
                     <NavLink
                         to="/dayAfterTomorrow"
                         className={({ isActive }) =>
-                            `fs-3 text-capitalize a-tag nav-text ${isActive ? "active-nav" : ""}`
+                            `fs-3 text-capitalize a-tag nav-text text-decoration-none ${isActive ? "active-nav" : ""}`
                         }
                     >
                         {moment().add(2, "day").format("dddd")}

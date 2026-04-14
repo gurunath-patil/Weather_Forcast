@@ -4,6 +4,7 @@ import WeatherUI from "@/components/weatherdisplayUi";
 import { useOutletContext } from "react-router-dom";
 import BottomUi from "@/components/bottomUI";
 import { WeatherCardSkeleton, ChartSkeleton } from "@/components/Skeletons";
+import NoResult from "@/components/NoResult";
 export default function WeatherForecast({ day }) {
     let [isLoading, setLoadingStatus] = useState(true)
     const { selectedLocation, tempUnit } = useOutletContext();
@@ -37,17 +38,8 @@ export default function WeatherForecast({ day }) {
 
     if (!selectedLocation) {
         return (
-            <div className="container text-light d-flex flex-column align-items-center justify-content-center" style={{ height: '60vh' }}>
-                <div className="text-center opacity-75">
-                    <div className="display-1 mb-3">
-                        <span className="material-icons text-warning" style={{fontSize: '80px', opacity: '0.6'}}>
-                            cloud_queue
-                        </span>
-                    </div>
-                    <h2 className="fw-light">Ready to check the sky?</h2>
-                    <p className="lead">Enter a location above to see the current weather and forecast.</p>
-                </div>
-
+            <div className="d-flex justify-content-center">
+                <NoResult />
             </div>
         )
     } else {
